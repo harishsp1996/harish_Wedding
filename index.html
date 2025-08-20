@@ -1,142 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Harish & Namratha Wedding</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
-    }
-
-    body {
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-
-    section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: #fff;
-      text-align: center;
-      padding: 2rem;
-      position: relative;
-    }
-
-    /* Background animations */
-    .home {
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad390, #f6d365);
-      background-size: 400% 400%;
-      animation: gradient 12s ease infinite;
-    }
-
-    .events {
-      background: linear-gradient(-45deg, #a18cd1, #fbc2eb, #8fd3f4, #84fab0);
-      background-size: 400% 400%;
-      animation: gradient 14s ease infinite;
-    }
-
-    .gallery {
-      background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ff9a9e, #fecfef);
-      background-size: 400% 400%;
-      animation: gradient 16s ease infinite;
-    }
-
-    .venue {
-      background: linear-gradient(-45deg, #43cea2, #185a9d, #ff9966, #ff5e62);
-      background-size: 400% 400%;
-      animation: gradient 18s ease infinite;
-    }
-
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      line-height: 1.6;
-    }
-
-    /* Gallery images */
-    .gallery-images {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
-
-    .gallery-images img {
-      width: 220px;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    /* Closing line */
-    .closing {
-      margin-top: 2rem;
-      font-size: 1.4rem;
-      font-style: italic;
-      opacity: 0.9;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harish & Namratha - Wedding Celebration</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Home -->
-  <section class="home">
-    <h1>Harish ❤ Namratha</h1>
-    <p>We are delighted to invite you to celebrate our wedding journey.</p>
-  </section>
+    <!-- Audio Background -->
+    <audio id="bgMusic" loop>
+        <source src="assets/wedding-music.mp3" type="audio/mpeg">
+    </audio>
 
-  <!-- Events -->
-  <section class="events">
-    <h2>Wedding Events</h2>
-    <p><b>Muhurtha:</b> 12th October 2025, 10:30 AM</p>
-    <p><b>Reception:</b> 11th October 2025, 7:00 PM</p>
-  </section>
+    <!-- Page 1: 3D Mantapa Entrance -->
+    <section id="page1" class="page active">
+        <div id="mantapa-container"></div>
+        <div class="overlay-content">
+            <div class="wedding-title" data-aos="fade-up" data-aos-delay="2000">
+                <h1 class="groom-bride">Harish <span>&</span> Namratha</h1>
+                <p class="subtitle">Together Forever</p>
+                <div class="date-preview">December 2025</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
 
-  <!-- Gallery -->
-  <section class="gallery">
-    <h2>Our Memories</h2>
-    <div class="gallery-images">
-      <img src="assets/photo1.jpg" alt="Photo 1" />
-      <img src="assets/photo2.jpg" alt="Photo 2" />
-      <img src="assets/photo3.jpg" alt="Photo 3" />
-    </div>
-  </section>
+    <!-- Page 2: Reception & Murutham Details -->
+    <section id="page2" class="page">
+        <div class="page-content">
+            <div class="event-container">
+                <div class="event-card reception-card" data-aos="fade-right">
+                    <div class="event-icon">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <div class="event-details">
+                        <h2>Reception Ceremony</h2>
+                        <div class="event-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>9th December 2025</span>
+                        </div>
+                        <div class="event-time">
+                            <i class="far fa-clock"></i>
+                            <span>6:00 PM Onwards</span>
+                        </div>
+                        <p class="event-description">Join us for an evening of celebration, dining, and dancing as we begin our new journey together.</p>
+                    </div>
+                </div>
 
-  <!-- Venue -->
-  <section class="venue">
-    <h2>Venue</h2>
-    <p>Grand Palace Convention Hall,<br> Bengaluru, India</p>
-    <div class="closing">"Two souls, one journey, infinite love ❤️"</div>
-  </section>
+                <div class="event-card murutham-card" data-aos="fade-left" data-aos-delay="300">
+                    <div class="event-icon">
+                        <i class="fas fa-om"></i>
+                    </div>
+                    <div class="event-details">
+                        <h2>Murutham Ceremony</h2>
+                        <div class="event-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>10th December 2025</span>
+                        </div>
+                        <div class="event-time">
+                            <i class="far fa-clock"></i>
+                            <span>8:00 AM Onwards</span>
+                        </div>
+                        <p class="event-description">A sacred ceremony marking the beginning of our wedding rituals with family blessings.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="decorative-elements">
+                <div class="floating-petals">
+                    <div class="petal petal1"></div>
+                    <div class="petal petal2"></div>
+                    <div class="petal petal3"></div>
+                    <div class="petal petal4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page 3: Photo Gallery -->
+    <section id="page3" class="page">
+        <div class="gallery-header" data-aos="fade-up">
+            <h2>Our Journey Together</h2>
+            <p>Cherished moments that led us here</p>
+        </div>
+        
+        <div class="gallery-container">
+            <div class="gallery-slider" id="gallerySlider">
+                <!-- Photos will be loaded from assets folder -->
+                <div class="gallery-slide">
+                    <img src="assets/gallery/photo1.jpg" alt="Harish & Namratha" />
+                    <div class="slide-overlay">
+                        <h3>First Meeting</h3>
+                        <p>Where it all began</p>
+                    </div>
+                </div>
+                <!-- More slides will be dynamically added -->
+            </div>
+        </div>
+        
+        <div class="gallery-controls">
+            <div class="gallery-dots" id="galleryDots"></div>
+        </div>
+    </section>
+
+    <!-- Page 4: Venue & Map -->
+    <section id="page4" class="page">
+        <div class="venue-content">
+            <div class="venue-info" data-aos="fade-right">
+                <h2>Wedding Venue</h2>
+                <div class="venue-details">
+                    <div class="venue-name">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Davanagere, Karnataka</h3>
+                    </div>
+                    <p class="venue-description">
+                        Join us in the beautiful city of Davanagere for our wedding celebration. 
+                        A place close to our hearts where we'll begin our journey as one.
+                    </p>
+                    <div class="venue-features">
+                        <div class="feature">
+                            <i class="fas fa-parking"></i>
+                            <span>Ample Parking</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-utensils"></i>
+                            <span>Traditional Cuisine</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-music"></i>
+                            <span>Live Entertainment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-container" data-aos="fade-left">
+                <div id="map"></div>
+                <div class="map-overlay">
+                    <h4>Davanagere, Karnataka</h4>
+                    <p>Click to open in Google Maps</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWebsite();
+        });
+    </script>
 </body>
 </html>
