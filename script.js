@@ -1,24 +1,26 @@
-let slideIndex = 0;
-const slides = document.getElementsByClassName("slide");
+// Gallery Auto Slideshow
+const slideshow = document.querySelector('.slideshow');
 
-function showSlides() {
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
+// Add images dynamically (upload your images into assets/photos/)
+const images = [
+  "assets/photos/photo1.jpg",
+  "assets/photos/photo2.jpg",
+  "assets/photos/photo3.jpg",
+  "assets/photos/photo4.jpg"
+];
 
-  slideIndex++;
-  if (slideIndex > slides.length) { slideIndex = 1; }
+images.forEach(src => {
+  const img = document.createElement('img');
+  img.src = src;
+  slideshow.appendChild(img);
+});
 
-  slides[slideIndex - 1].style.display = "block";
-  slides[slideIndex - 1].style.opacity = 0;
-  let opacity = 0;
-  const fadeIn = setInterval(() => {
-    if (opacity >= 1) clearInterval(fadeIn);
-    slides[slideIndex - 1].style.opacity = opacity;
-    opacity += 0.05;
-  }, 50);
+let index = 0;
+const slides = document.querySelectorAll('.slideshow img');
+slides[0].classList.add('active');
 
-  setTimeout(showSlides, 4000); // Change every 4s
-}
-
-showSlides();
+setInterval(() => {
+  slides[index].classList.remove('active');
+  index = (index + 1) % slides.length;
+  slides[index].classList.add('active');
+}, 4000);
