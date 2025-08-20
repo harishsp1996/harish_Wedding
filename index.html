@@ -1,153 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harish Weds Namrath</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harish & Namratha Wedding</title>
   <style>
-    /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-    body, html {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      font-family: "Georgia", serif;
-      background: #fff;
+    body {
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     section {
-      height: 100vh;
-      width: 100%;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #fff;
       text-align: center;
       padding: 2rem;
-      transition: opacity 1s ease, transform 1s ease;
+      position: relative;
+    }
+
+    /* Background animations */
+    .home {
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad390, #f6d365);
+      background-size: 400% 400%;
+      animation: gradient 12s ease infinite;
+    }
+
+    .events {
+      background: linear-gradient(-45deg, #a18cd1, #fbc2eb, #8fd3f4, #84fab0);
+      background-size: 400% 400%;
+      animation: gradient 14s ease infinite;
+    }
+
+    .gallery {
+      background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ff9a9e, #fecfef);
+      background-size: 400% 400%;
+      animation: gradient 16s ease infinite;
+    }
+
+    .venue {
+      background: linear-gradient(-45deg, #43cea2, #185a9d, #ff9966, #ff5e62);
+      background-size: 400% 400%;
+      animation: gradient 18s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     h1 {
       font-size: 3rem;
       margin-bottom: 1rem;
-      color: #b30059;
     }
 
     h2 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #333;
     }
 
     p {
       font-size: 1.2rem;
       max-width: 600px;
       line-height: 1.6;
-      color: #444;
     }
 
-    /* Background colors for each page */
-    #home { background: linear-gradient(to bottom right, #fff0f5, #ffe4e1); }
-    #reception { background: linear-gradient(to bottom right, #e6ffe6, #ccffcc); }
-    #muhurtha { background: linear-gradient(to bottom right, #ffffcc, #fff9b1); }
-    #venue { background: linear-gradient(to bottom right, #f0f8ff, #d6eaff); }
-
-    /* Gallery auto transition */
-    .gallery {
+    /* Gallery images */
+    .gallery-images {
       display: flex;
-      overflow: hidden;
-      width: 80%;
-      height: 300px;
-      margin-top: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      position: relative;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
     }
 
-    .gallery img {
-      width: 100%;
-      flex-shrink: 0;
+    .gallery-images img {
+      width: 220px;
+      height: 220px;
       object-fit: cover;
-      animation: slide 16s infinite;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      animation: float 6s ease-in-out infinite;
     }
 
-    @keyframes slide {
-      0% { transform: translateX(0%); }
-      25% { transform: translateX(-100%); }
-      50% { transform: translateX(-200%); }
-      75% { transform: translateX(-300%); }
-      100% { transform: translateX(0%); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
     }
 
-    /* Thank you message */
-    .thank-you {
-      font-size: 1.8rem;
-      font-style: italic;
+    /* Closing line */
+    .closing {
       margin-top: 2rem;
-      color: #444;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      h1 { font-size: 2.2rem; }
-      h2 { font-size: 1.5rem; }
-      p { font-size: 1rem; }
-      .gallery { height: 200px; }
+      font-size: 1.4rem;
+      font-style: italic;
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
   <!-- Home -->
-  <section id="home">
-    <h1>Harish ❤️ Nimi</h1>
-    <p>With joyful hearts, we invite you to be part of our wedding celebrations.</p>
+  <section class="home">
+    <h1>Harish ❤ Namratha</h1>
+    <p>We are delighted to invite you to celebrate our wedding journey.</p>
   </section>
 
-  <!-- Reception -->
-  <section id="reception">
-    <h2>Reception</h2>
-    <p>Date: 28th August 2025</p>
-    <p>Time: 7:00 PM onwards</p>
-    <p>Come and join us for an evening of love, laughter, and togetherness.</p>
-    <div class="gallery">
-      <img src="assets/img1.jpg" alt="Gallery 1">
-      <img src="assets/img2.jpg" alt="Gallery 2">
-      <img src="assets/img3.jpg" alt="Gallery 3">
-      <img src="assets/img4.jpg" alt="Gallery 4">
+  <!-- Events -->
+  <section class="events">
+    <h2>Wedding Events</h2>
+    <p><b>Muhurtha:</b> 12th October 2025, 10:30 AM</p>
+    <p><b>Reception:</b> 11th October 2025, 7:00 PM</p>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery">
+    <h2>Our Memories</h2>
+    <div class="gallery-images">
+      <img src="assets/photo1.jpg" alt="Photo 1" />
+      <img src="assets/photo2.jpg" alt="Photo 2" />
+      <img src="assets/photo3.jpg" alt="Photo 3" />
     </div>
-  </section>
-
-  <!-- Muhurtha -->
-  <section id="muhurtha">
-    <h2>Muhurtha</h2>
-    <p>Date: 29th August 2025</p>
-    <p>Time: 9:30 AM</p>
-    <p>A sacred bond sealed with blessings, rituals, and eternal promises.</p>
   </section>
 
   <!-- Venue -->
-  <section id="venue">
+  <section class="venue">
     <h2>Venue</h2>
-    <p>Grand Lotus Convention Hall</p>
-    <p>Bengaluru, Karnataka</p>
-    <div class="thank-you">
-      "Two souls, one journey, endless love. <br>We can’t wait to celebrate with you!"
-    </div>
+    <p>Grand Palace Convention Hall,<br> Bengaluru, India</p>
+    <div class="closing">"Two souls, one journey, infinite love ❤️"</div>
   </section>
-
-  <script>
-    // Auto smooth scroll between sections
-    const sections = document.querySelectorAll("section");
-    let index = 0;
-
-    function scrollNext() {
-      index = (index + 1) % sections.length;
-      sections[index].scrollIntoView({ behavior: "smooth" });
-    }
-
-    setInterval(scrollNext, 6000); // every 6s auto scroll
-  </script>
 </body>
 </html>
