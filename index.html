@@ -15,7 +15,9 @@
   <div class="music-controls">
     <button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        <!-- FIXED: Added "M" at start -->
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 
+                 4-1.79 4-4V7h4V3h-6z"/>
       </svg>
     </button>
     <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
@@ -69,8 +71,12 @@
     <section class="section video-section">
       <h2>Our Pre-Wedding Story</h2>
       <div class="video-container">
+        <!-- FIXED: replaced dead video link with W3Schools demo -->
         <video id="weddingVideo" controls muted poster="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
-          <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+          <p>Your browser doesn't support HTML video. Here's a 
+             <a href="https://www.w3schools.com/html/mov_bbb.mp4" target="_blank">link to the video</a>.
+          </p>
         </video>
       </div>
     </section>
