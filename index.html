@@ -4,160 +4,339 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harish & Namratha - Wedding Celebration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Audio Background -->
-    <audio id="bgMusic" loop>
-        <source src="assets/wedding-music.mp3" type="audio/mpeg">
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/soft-wedding-music.mp3" type="audio/mpeg">
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Page 1: 3D Mantapa Entrance -->
-    <section id="page1" class="page active">
-        <div id="mantapa-container"></div>
-        <div class="overlay-content">
-            <div class="wedding-title" data-aos="fade-up" data-aos-delay="2000">
-                <h1 class="groom-bride">Harish <span>&</span> Namratha</h1>
-                <p class="subtitle">Together Forever</p>
-                <div class="date-preview">December 2025</div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
+    <!-- Music Controls -->
+    <div class="music-controls">
+        <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
+            <span class="music-icon">🎵</span>
+        </button>
+        <input type="range" id="volumeControl" class="volume-slider" min="0" max="100" value="50">
+    </div>
 
-    <!-- Page 2: Reception & Murutham Details -->
-    <section id="page2" class="page">
-        <div class="page-content">
-            <div class="event-container">
-                <div class="event-card reception-card" data-aos="fade-right">
-                    <div class="event-icon">
-                        <i class="fas fa-glass-cheers"></i>
+    <!-- Auto-scroll Progress Indicator -->
+    <div class="scroll-progress">
+        <div class="progress-bar"></div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <nav class="nav-dots" aria-label="Section Navigation">
+        <button class="nav-dot active" data-section="0" aria-label="Hero Section"></button>
+        <button class="nav-dot" data-section="1" aria-label="Family Blessings"></button>
+        <button class="nav-dot" data-section="2" aria-label="Events"></button>
+        <button class="nav-dot" data-section="3" aria-label="Pre-Wedding Video"></button>
+        <button class="nav-dot" data-section="4" aria-label="Gallery"></button>
+        <button class="nav-dot" data-section="5" aria-label="Venue"></button>
+    </nav>
+
+    <main class="main-container">
+        <!-- Enhanced Hero Section with Rich Animations -->
+        <section class="section hero-section" id="hero">
+            <!-- Animated Background Elements -->
+            <div class="hero-background">
+                <div class="animated-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                    <div class="shape shape-4"></div>
+                    <div class="shape shape-5"></div>
+                    <div class="shape shape-6"></div>
+                </div>
+                
+                <div class="floating-elements">
+                    <div class="mandala mandala-1">
+                        <div class="mandala-inner"></div>
                     </div>
-                    <div class="event-details">
-                        <h2>Reception Ceremony</h2>
-                        <div class="event-date">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>9th December 2025</span>
-                        </div>
-                        <div class="event-time">
-                            <i class="far fa-clock"></i>
-                            <span>6:00 PM Onwards</span>
-                        </div>
-                        <p class="event-description">Join us for an evening of celebration, dining, and dancing as we begin our new journey together.</p>
+                    <div class="mandala mandala-2">
+                        <div class="mandala-inner"></div>
+                    </div>
+                    <div class="mandala mandala-3">
+                        <div class="mandala-inner"></div>
+                    </div>
+                    <div class="mandala mandala-4">
+                        <div class="mandala-inner"></div>
                     </div>
                 </div>
 
-                <div class="event-card murutham-card" data-aos="fade-left" data-aos-delay="300">
-                    <div class="event-icon">
-                        <i class="fas fa-om"></i>
-                    </div>
-                    <div class="event-details">
-                        <h2>Murutham Ceremony</h2>
-                        <div class="event-date">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>10th December 2025</span>
-                        </div>
-                        <div class="event-time">
-                            <i class="far fa-clock"></i>
-                            <span>8:00 AM Onwards</span>
-                        </div>
-                        <p class="event-description">A sacred ceremony marking the beginning of our wedding rituals with family blessings.</p>
-                    </div>
+                <!-- Sparkle Effects -->
+                <div class="sparkles">
+                    <div class="sparkle sparkle-1">✨</div>
+                    <div class="sparkle sparkle-2">⭐</div>
+                    <div class="sparkle sparkle-3">💫</div>
+                    <div class="sparkle sparkle-4">✨</div>
+                    <div class="sparkle sparkle-5">⭐</div>
+                    <div class="sparkle sparkle-6">💫</div>
                 </div>
-            </div>
-            
-            <div class="decorative-elements">
-                <div class="floating-petals">
-                    <div class="petal petal1"></div>
-                    <div class="petal petal2"></div>
-                    <div class="petal petal3"></div>
-                    <div class="petal petal4"></div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Page 3: Photo Gallery -->
-    <section id="page3" class="page">
-        <div class="gallery-header" data-aos="fade-up">
-            <h2>Our Journey Together</h2>
-            <p>Cherished moments that led us here</p>
-        </div>
-        
-        <div class="gallery-container">
-            <div class="gallery-slider" id="gallerySlider">
-                <!-- Photos will be loaded from assets folder -->
-                <div class="gallery-slide">
-                    <img src="assets/gallery/photo1.jpg" alt="Harish & Namratha" />
-                    <div class="slide-overlay">
-                        <h3>First Meeting</h3>
-                        <p>Where it all began</p>
-                    </div>
-                </div>
-                <!-- More slides will be dynamically added -->
+                <!-- Particle System -->
+                <div class="particles-container"></div>
             </div>
-        </div>
-        
-        <div class="gallery-controls">
-            <div class="gallery-dots" id="galleryDots"></div>
-        </div>
-    </section>
 
-    <!-- Page 4: Venue & Map -->
-    <section id="page4" class="page">
-        <div class="venue-content">
-            <div class="venue-info" data-aos="fade-right">
-                <h2>Wedding Venue</h2>
-                <div class="venue-details">
-                    <div class="venue-name">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h3>Davanagere, Karnataka</h3>
+            <!-- Main Hero Content -->
+            <div class="hero-content">
+                <div class="welcome-text">
+                    <span class="welcome-line">Welcome to the Union of</span>
+                </div>
+                
+                <div class="couple-names">
+                    <h1 class="groom-name">Harish</h1>
+                    <div class="ampersand">
+                        <span class="ampersand-text">&</span>
+                        <div class="heart-animation">💕</div>
                     </div>
-                    <p class="venue-description">
-                        Join us in the beautiful city of Davanagere for our wedding celebration. 
-                        A place close to our hearts where we'll begin our journey as one.
-                    </p>
-                    <div class="venue-features">
-                        <div class="feature">
-                            <i class="fas fa-parking"></i>
-                            <span>Ample Parking</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-utensils"></i>
-                            <span>Traditional Cuisine</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-music"></i>
-                            <span>Live Entertainment</span>
-                        </div>
+                    <h1 class="bride-name">Namratha</h1>
+                </div>
+                
+                <div class="wedding-subtitle-container">
+                    <p class="wedding-subtitle">Two Families, One Beautiful Union</p>
+                    <div class="subtitle-decoration">
+                        <div class="decoration-line"></div>
+                        <div class="decoration-flower">🌸</div>
+                        <div class="decoration-line"></div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="map-container" data-aos="fade-left">
-                <div id="map"></div>
-                <div class="map-overlay">
-                    <h4>Davanagere, Karnataka</h4>
-                    <p>Click to open in Google Maps</p>
+                
+                <div class="wedding-date">
+                    <div class="date-container">
+                        <span class="date-text">December 9th & 10th, 2025</span>
+                        <div class="date-highlight"></div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <script src="script.js"></script>
-    <script>
-        // Initialize the website
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeWebsite();
-        });
-    </script>
+                <div class="scroll-indicator">
+                    <div class="scroll-text">Scroll to Explore</div>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+
+            <!-- Decorative Border -->
+            <div class="hero-border">
+                <div class="border-corner border-top-left"></div>
+                <div class="border-corner border-top-right"></div>
+                <div class="border-corner border-bottom-left"></div>
+                <div class="border-corner border-bottom-right"></div>
+            </div>
+        </section>
+
+        <!-- Family Blessings Section -->
+        <section class="section family-section" id="family">
+            <div class="section-container">
+                <h2 class="section-title">Family Blessings & Traditions</h2>
+                <p class="section-subtitle">Celebrating the beautiful journey of arranged marriage, where families unite hearts with wisdom and love</p>
+                
+                <div class="blessing-grid">
+                    <div class="blessing-card">
+                        <div class="blessing-icon">🙏</div>
+                        <h3>Family Unity</h3>
+                        <p>Two respected families, bound by shared values and traditions, have chosen to unite Harish and Namratha in the sacred bond of marriage.</p>
+                    </div>
+                    
+                    <div class="blessing-card">
+                        <div class="blessing-icon">🕉️</div>
+                        <h3>Traditional Values</h3>
+                        <p>In the beautiful tradition of arranged marriage, our families have carefully chosen partners based on compatibility, shared dreams, and mutual respect.</p>
+                    </div>
+                    
+                    <div class="blessing-card">
+                        <div class="blessing-icon">🏛️</div>
+                        <h3>Cultural Heritage</h3>
+                        <p>Honoring the wisdom of our ancestors and the richness of our cultural heritage as we begin this blessed journey together.</p>
+                    </div>
+                    
+                    <div class="blessing-card">
+                        <div class="blessing-icon">💫</div>
+                        <h3>Blessed Journey</h3>
+                        <p>With the blessings of our families and guidance of our elders, we step forward into a future filled with love, understanding, and shared purposes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section class="section events-section" id="events">
+            <div class="section-container">
+                <h2 class="section-title">Wedding Celebrations</h2>
+                <p class="section-subtitle">Join us as we celebrate these auspicious moments with family and friends</p>
+                
+                <div class="events-timeline">
+                    <div class="event-card reception-event">
+                        <div class="event-icon">🥂</div>
+                        <div class="event-details">
+                            <h3>Reception Ceremony</h3>
+                            <div class="event-date">9th December 2025</div>
+                            <div class="event-time">6:00 PM Onwards</div>
+                            <p>Join us for an evening of celebration as our families come together to bless this union with joy and traditional festivities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card murutham-event">
+                        <div class="event-icon">🕉️</div>
+                        <div class="event-details">
+                            <h3>Murutham Ceremony</h3>
+                            <div class="event-date">10th December 2025</div>
+                            <div class="event-time">8:00 AM Onwards</div>
+                            <p>A sacred ceremony marking the auspicious beginning of our wedding rituals with family blessings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pre-Wedding Video Section (Above Gallery) -->
+        <section class="section video-section" id="video">
+            <div class="section-container">
+                <h2 class="section-title">Our Pre-Wedding Story</h2>
+                <p class="section-subtitle">A glimpse into our journey as families come together</p>
+                
+                <div class="video-container">
+                    <div class="video-frame">
+                        <video id="preWeddingVideo" controls muted class="wedding-video" poster="https://images.unsplash.com/photo-1583137723340-3bfbbdf7ae50?w=800&h=450&fit=crop">
+                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                            <p>Your browser doesn't support video playback.</p>
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-button" id="playButton">
+                                <div class="play-icon">▶</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4>Our Pre-Wedding Journey</h4>
+                        <p>Watch our beautiful story unfold as our families come together to celebrate this sacred union.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section gallery-section" id="gallery">
+            <div class="section-container">
+                <h2 class="section-title">Beautiful Moments</h2>
+                <p class="section-subtitle">Capturing the essence of our journey and celebrations</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-slider">
+                        <div class="gallery-track" id="galleryTrack">
+                            <div class="gallery-slide active">
+                                <img src="https://images.unsplash.com/photo-1583137723340-3bfbbdf7ae50?w=1200&h=800&fit=crop" alt="Family Gathering">
+                                <div class="slide-overlay">
+                                    <h3>Family Gathering</h3>
+                                    <p>When two families meet and bonds are formed</p>
+                                </div>
+                            </div>
+                            <div class="gallery-slide">
+                                <img src="https://images.unsplash.com/photo-1583940113751-182ced23be58?w=1200&h=800&fit=crop" alt="Engagement Ceremony">
+                                <div class="slide-overlay">
+                                    <h3>Engagement Ceremony</h3>
+                                    <p>The formal announcement of our union</p>
+                                </div>
+                            </div>
+                            <div class="gallery-slide">
+                                <img src="https://images.unsplash.com/photo-1585992332075-6e0fa98333e7?w=1200&h=800&fit=crop" alt="Traditional Rituals">
+                                <div class="slide-overlay">
+                                    <h3>Traditional Rituals</h3>
+                                    <p>Honoring our cultural heritage</p>
+                                </div>
+                            </div>
+                            <div class="gallery-slide">
+                                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&h=800&fit=crop" alt="Family Blessings">
+                                <div class="slide-overlay">
+                                    <h3>Family Blessings</h3>
+                                    <p>Receiving love and guidance from elders</p>
+                                </div>
+                            </div>
+                            <div class="gallery-slide">
+                                <img src="https://images.unsplash.com/photo-1582479137596-2ccf0201d12f?w=1200&h=800&fit=crop" alt="Pre-Wedding Celebrations">
+                                <div class="slide-overlay">
+                                    <h3>Pre-Wedding Celebrations</h3>
+                                    <p>Joy and preparations before the big day</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gallery-navigation">
+                            <button class="gallery-nav prev-btn" id="prevBtn" aria-label="Previous Image">❮</button>
+                            <button class="gallery-nav next-btn" id="nextBtn" aria-label="Next Image">❯</button>
+                        </div>
+                        
+                        <div class="gallery-dots">
+                            <button class="gallery-dot active" data-slide="0"></button>
+                            <button class="gallery-dot" data-slide="1"></button>
+                            <button class="gallery-dot" data-slide="2"></button>
+                            <button class="gallery-dot" data-slide="3"></button>
+                            <button class="gallery-dot" data-slide="4"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Venue Section -->
+        <section class="section venue-section" id="venue">
+            <div class="section-container">
+                <h2 class="section-title">Wedding Venue</h2>
+                <p class="section-subtitle">A beautiful venue chosen by our families for this auspicious celebration</p>
+                
+                <div class="venue-container">
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3838.123!2d75.921739!3d14.460255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDI3JzM2LjkiTiA3NcKwNTUnMTguMyJF!5e0!3m2!1sen!2sin!4v1629789012345!5m2!1sen!2sin"
+                            width="100%" 
+                            height="400" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            title="Wedding Venue Location">
+                        </iframe>
+                        <div class="map-overlay">
+                            <a href="https://share.google/cbl89B5LypyUa8SQx" target="_blank" class="directions-btn">Get Directions</a>
+                        </div>
+                    </div>
+                    
+                    <div class="venue-info">
+                        <h3>Venue Details</h3>
+                        <div class="venue-location">
+                            <h4>Wedding Venue</h4>
+                            <p>Davanagere, Karnataka</p>
+                        </div>
+                        <p>Join us at this beautiful location where our families will come together to celebrate this joyous occasion.</p>
+                        <div class="venue-contact">
+                            <p><strong>For inquiries:</strong></p>
+                            <p>Please contact the families for more details</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <section class="section footer-section">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="couple-names-footer">
+                        <span class="groom-name-footer">Harish</span>
+                        <span class="ampersand-footer">&</span>
+                        <span class="bride-name-footer">Namratha</span>
+                    </div>
+                    <p class="footer-blessing">May our union be blessed with happiness, prosperity, and eternal love</p>
+                    <p class="footer-gratitude">With gratitude to our families and loved ones</p>
+                    <div class="footer-divider"></div>
+                    <p class="footer-copyright">December 2025 • Wedding Celebration</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
 </body>
 </html>
