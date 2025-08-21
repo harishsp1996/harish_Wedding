@@ -939,21 +939,24 @@ body {
 }
 
 /* Music Controls */
-.music-controls {
+.music-control {
     position: fixed;
-    top: 2rem;
-    right: 2rem;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: transparent;   /* ✅ now transparent */
+    color: #fff;               /* make icon white */
+    border: 2px solid #fff;    /* optional: add white border */
     display: flex;
     align-items: center;
-    gap: 1rem;
-    z-index: 100;
-    background: rgba(255, 248, 220, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 0.8rem 1.2rem;
-    border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(139, 0, 0, 0.15);
-    border: 1px solid rgba(218, 165, 32, 0.3);
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background 0.3s, transform 0.3s;
 }
+
 
 .music-toggle {
     background: linear-gradient(135deg, #8B0000, #B22222);
