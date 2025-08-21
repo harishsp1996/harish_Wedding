@@ -12,19 +12,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Particle System - Re-imagined as floating hearts and confetti -->
+    <!-- Particle System -->
     <div class="particles"></div>
     
-    <!-- Floating Decorations - Rings and other elements -->
-    <div class="floating-decorations">
-        <!-- These elements will be dynamically created by JS, but this container holds them -->
+    <!-- Floating Decorations -->
+    <div class="floating-patterns">
+        <div class="pattern pattern-1"></div>
+        <div class="pattern pattern-2"></div>
+        <div class="pattern pattern-3"></div>
+        <div class="accent accent-1"></div>
+        <div class="accent accent-2"></div>
+        <div class="accent accent-3"></div>
     </div>
 
     <!-- Music Controls -->
     <div class="music-controls">
         <button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                <path d="12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
             </svg>
         </button>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" aria-label="Volume control">
@@ -36,205 +41,310 @@
     <!-- Navigation Dots - Fixed to include all 7 sections -->
     <nav class="nav-dots" role="navigation" aria-label="Section navigation">
         <button class="nav-dot active" data-section="0" aria-label="Go to Hero section"></button>
-        <button class="nav-dot" data-section="1" aria-label="Go to Our Story section"></button>
-        <button class="nav-dot" data-section="2" aria-label="Go to Wedding Schedule section"></button>
-        <button class="nav-dot" data-section="3" aria-label="Go to Wedding Video section"></button>
+        <button class="nav-dot" data-section="1" aria-label="Go to Family section"></button>
+        <button class="nav-dot" data-section="2" aria-label="Go to Events section"></button>
+        <button class="nav-dot" data-section="3" aria-label="Go to Video section"></button>
         <button class="nav-dot" data-section="4" aria-label="Go to Gallery section"></button>
-        <button class="nav-dot" data-section="5" aria-label="Go to Wedding Venue section"></button>
-        <button class="nav-dot" data-section="6" aria-label="Go to Blessings & Gratitude section"></button>
+        <button class="nav-dot" data-section="5" aria-label="Go to Venue section"></button>
+        <button class="nav-dot" data-section="6" aria-label="Go to Thank You section"></button>
     </nav>
-
-    <!-- Auto-scroll toggle button -->
-    <button class="auto-scroll-toggle" id="autoScrollToggle" aria-label="Toggle auto scroll">
-        <span class="toggle-icon">⏸️</span>
-    </button>
 
     <!-- Progress Bar -->
     <div class="progress-bar">
         <div class="progress-fill"></div>
     </div>
-    
-    <!-- Notification area -->
-    <div class="notification-container" id="notificationContainer"></div>
 
-    <!-- Main Content Sections -->
-    <main>
-        <!-- Section 1: Hero Section -->
-        <section id="hero" class="section active">
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <section class="section hero-section active" id="section-0">
             <div class="hero-content">
-                <h2 class="welcome-heading">You are cordially invited to celebrate the union of</h2>
-                <div class="name-container">
-                    <h1 class="groom-name">Harish</h1>
-                    <span class="heart-divider">&#x2764;&#xfe0f;</span>
-                    <h1 class="bride-name">Namratha</h1>
+                <div class="welcome-text">
+                    <h1 class="welcome-heading cascade-1">Welcome to the celebration of</h1>
                 </div>
-                <p class="date-text">
-                    December 9 & 10, 2025
-                </p>
+                <div class="couple-names">
+                    <h2 class="groom-name cascade-2">Harish</h2>
+                    <div class="heart-divider cascade-3">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <h2 class="bride-name cascade-4">Namratha</h2>
+                </div>
+                <p class="hero-subtitle cascade-5">Two Hearts, One Beautiful Journey</p>
+                <div class="wedding-dates cascade-6">
+                    <div class="date-card">
+                        <span class="date-label">Reception</span>
+                        <span class="date-value">December 9, 2025</span>
+                    </div>
+                    <div class="date-card">
+                        <span class="date-label">Muhurtha</span>
+                        <span class="date-value">December 10, 2025</span>
+                    </div>
+                </div>
             </div>
-            <p class="scroll-down-hint">Scroll down to explore</p>
-        </section>
-
-        <!-- Section 2: Our Story -->
-        <section id="story" class="section animate-on-scroll">
-            <h2 class="section-title">Our Story</h2>
-            <div class="story-content">
-                <p>
-                    From a casual introduction to a beautiful love story, our journey has been a testament to destiny. We found in each other a best friend, a confidant, and a partner for life.
-                </p>
-                <div class="story-cards">
-                    <div class="story-card fade-in-up">
-                        <span class="story-icon">&#x1F491;</span>
-                        <h3 class="story-card-title">The First Hello</h3>
-                        <p>It all began on a quiet Tuesday evening with a simple "hello" that would change our lives forever.</p>
-                    </div>
-                    <div class="story-card fade-in-up" style="animation-delay: 0.2s;">
-                        <span class="story-icon">&#x1F498;</span>
-                        <h3 class="story-card-title">The First Date</h3>
-                        <p>A beautiful sunset, a cozy cafe, and hours of conversation that felt like minutes.</p>
-                    </div>
-                    <div class="story-card fade-in-up" style="animation-delay: 0.4s;">
-                        <span class="story-icon">&#x1F48D;</span>
-                        <h3 class="story-card-title">The Proposal</h3>
-                        <p>Under a sky full of stars, a promise was made, and a new chapter began.</p>
-                    </div>
+            <div class="hero-decoration">
+                <div class="floating-patterns-hero">
+                    <div class="mandala-pattern mandala-1"></div>
+                    <div class="mandala-pattern mandala-2"></div>
+                    <div class="mandala-pattern mandala-3"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Wedding Schedule -->
-        <section id="schedule" class="section animate-on-scroll">
-            <h2 class="section-title">Wedding Schedule</h2>
-            <div class="schedule-timeline">
-                <div class="timeline-item fade-in-left">
-                    <div class="timeline-date">
-                        <span>Dec 9, 2025</span>
+        <!-- Family Blessings Section -->
+        <section class="section family-section" id="section-1">
+            <div class="section-header">
+                <h2 class="section-title">Family Blessings & Traditions</h2>
+                <p class="section-subtitle">Celebrating the beautiful journey of arranged marriage, where families unite hearts with wisdom and love</p>
+            </div>
+            <div class="blessing-cards">
+                <div class="blessing-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM6 2C4.89 2 4 2.89 4 4s.89 2 2 2 2-.89 2-2-.89-2-2-2zM12 4.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm7.5 9.5c-1.21 0-2.26-.54-3-1.38-.74.84-1.79 1.38-3 1.38s-2.26-.54-3-1.38c-.74.84-1.79 1.38-3 1.38C6.12 14 5 12.88 5 11.5S6.12 9 7.5 9c1.21 0 2.26.54 3 1.38.74-.84 1.79-1.38 3-1.38s2.26.54 3 1.38c.74-.84 1.79-1.38 3-1.38 1.38 0 2.5 1.12 2.5 2.5S20.88 14 19.5 14z"/>
+                        </svg>
                     </div>
+                    <h3 class="card-title">Family Unity</h3>
+                    <p class="card-description">Two respected families, bound by shared values and traditions, have chosen to unite Harish and Namratha in the sacred bond of marriage.</p>
+                </div>
+                <div class="blessing-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Traditional Values</h3>
+                    <p class="card-description">In the beautiful tradition of arranged marriage, our families have carefully chosen partners based on compatibility, shared dreams, and mutual respect.</p>
+                </div>
+                <div class="blessing-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5M12,2A7,7 0 0,1 19,9C19,14.25 12,22 12,22C12,22 5,14.25 5,9A7,7 0 0,1 12,2M12,4A5,5 0 0,0 7,9C7,10 7,12 12,18.71C17,12 17,10 17,9A5,5 0 0,0 12,4Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Cultural Heritage</h3>
+                    <p class="card-description">Honoring the wisdom of our ancestors and the richness of our cultural heritage as we begin this blessed journey together.</p>
+                </div>
+                <div class="blessing-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.61L12.75,4H11.25Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Blessed Journey</h3>
+                    <p class="card-description">With the blessings of our families and guidance of our elders, we step forward into a future filled with love, understanding, and shared purposes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wedding Events Section -->
+        <section class="section events-section" id="section-2">
+            <div class="section-header">
+                <h2 class="section-title">Wedding Celebrations</h2>
+                <p class="section-subtitle">Join us as we celebrate these auspicious moments with family and friends</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
                     <div class="timeline-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M22 6.5C22 5.67 21.33 5 20.5 5H19V2H17V5H7V2H5V5H3.5C2.67 5 2 5.67 2 6.5V20.5C2 21.33 2.67 22 3.5 22H20.5C21.33 22 22 21.33 22 20.5V6.5M19 19H5V12H19V19M19 10H5V7H19V10Z" />
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5,4V7H10.5V19H13.5V7H19V4H5Z"/>
                         </svg>
                     </div>
                     <div class="timeline-content">
-                        <h3>Reception</h3>
-                        <p>Join us for a joyful evening of music, dance, and delicious food as we celebrate our union.</p>
-                        <p class="timeline-time">6:00 PM onwards</p>
+                        <h3 class="timeline-title">Reception Ceremony</h3>
+                        <div class="timeline-date">
+                            <span class="date-day">Tuesday</span>
+                            <span class="date-full">December 9, 2025</span>
+                        </div>
+                        <p class="timeline-description">Join us for an evening of celebration as our families come together to bless this union with joy and traditional festivities.</p>
                     </div>
                 </div>
-                <div class="timeline-item fade-in-right">
-                    <div class="timeline-date">
-                        <span>Dec 10, 2025</span>
-                    </div>
+                <div class="timeline-item">
                     <div class="timeline-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2M12,9C10.74,9 8,11.55 8,14.5C8,15.65 8.27,16.73 8.76,17.7C9.36,18.84 10.43,20 12,20C13.57,20 14.64,18.84 15.24,17.7C15.73,16.73 16,15.65 16,14.5C16,11.55 13.26,9 12,9M12,18A2,2 0 0,1 10,16A2,2 0 0,1 12,14A2,2 0 0,1 14,16A2,2 0 0,1 12,18M20.5,12A8.5,8.5 0 0,1 12,20.5A8.5,8.5 0 0,1 3.5,12A8.5,8.5 0 0,1 12,3.5A8.5,8.5 0 0,1 20.5,12M12,0A12,12 0 0,0 0,12A12,12 0 0,0 12,24A12,12 0 0,0 24,12A12,12 0 0,0 12,0Z" />
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
                         </svg>
                     </div>
                     <div class="timeline-content">
-                        <h3>Muhurtha</h3>
-                        <p>Witness the sacred moment as we exchange vows and embark on our marital journey.</p>
-                        <p class="timeline-time">10:00 AM onwards</p>
+                        <h3 class="timeline-title">Muhurtha Ceremony</h3>
+                        <div class="timeline-date">
+                            <span class="date-day">Wednesday</span>
+                            <span class="date-full">December 10, 2025</span>
+                        </div>
+                        <p class="timeline-description">The sacred wedding ceremony marking the auspicious beginning of our married life with traditional rituals and family blessings.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Wedding Video -->
-        <section id="video" class="section animate-on-scroll">
-            <h2 class="section-title">A Glimpse of our Love Story</h2>
+        <!-- Video Section -->
+        <section class="section video-section" id="section-3">
+            <div class="section-header">
+                <h2 class="section-title">Our Pre-Wedding Story</h2>
+                <p class="section-subtitle">A glimpse into our journey as families come together</p>
+            </div>
             <div class="video-container">
-                <video id="weddingVideo" controls preload="metadata" playsinline>
-                    <!-- Using a placeholder video URL. Replace with your actual video. -->
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-newly-married-couple-dancing-760-large.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
+                <video id="weddingVideo" controls poster="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+                    <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+                    <p>Your browser doesn't support HTML video. Here's a <a href="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" target="_blank">link to the video</a> instead.</p>
                 </video>
                 <div class="video-overlay" id="videoOverlay">
-                    <button class="play-button" id="playButton" aria-label="Play video">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                    <button class="play-button" id="playButton">
+                        <svg class="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8,5.14V19.14L19,12.14L8,5.14Z"/>
                         </svg>
+                        <span class="play-text">Watch Our Story</span>
                     </button>
-                    <p>Click to Play</p>
                 </div>
             </div>
+            <p class="video-description">Watch our beautiful story unfold as our families come together to celebrate this sacred union.</p>
         </section>
 
-        <!-- Section 5: Gallery -->
-        <section id="gallery" class="section animate-on-scroll">
-            <h2 class="section-title">Our Moments</h2>
+        <!-- Photo Gallery Section -->
+        <section class="section gallery-section" id="section-4">
+            <div class="section-header">
+                <h2 class="section-title">Beautiful Moments</h2>
+                <p class="section-subtitle">Capturing the essence of our journey and celebrations</p>
+            </div>
             <div class="gallery-container">
                 <div class="gallery-main">
-                    <!-- Placeholder images. Replace with your actual images. -->
-                    <div class="gallery-image active" style="background-image: url('https://placehold.co/1000x600/DAA520/FFF?text=Our+Love+Story+1');"></div>
-                    <div class="gallery-image" style="background-image: url('https://placehold.co/1000x600/F4A460/FFF?text=Our+Love+Story+2');"></div>
-                    <div class="gallery-image" style="background-image: url('https://placehold.co/1000x600/B22222/FFF?text=Our+Love+Story+3');"></div>
-                    <div class="gallery-image" style="background-image: url('https://placehold.co/1000x600/8B0000/FFF?text=Our+Love+Story+4');"></div>
+                    <div class="gallery-image active">
+                        <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Family Gathering" loading="lazy">
+                        <div class="image-overlay">
+                            <h3 class="image-title">Family Gathering</h3>
+                            <p class="image-description">When two families meet and bonds are formed</p>
+                        </div>
+                    </div>
+                    <div class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Engagement Ceremony" loading="lazy">
+                        <div class="image-overlay">
+                            <h3 class="image-title">Engagement Ceremony</h3>
+                            <p class="image-description">The formal announcement of our union</p>
+                        </div>
+                    </div>
+                    <div class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Traditional Rituals" loading="lazy">
+                        <div class="image-overlay">
+                            <h3 class="image-title">Traditional Rituals</h3>
+                            <p class="image-description">Honoring our cultural heritage</p>
+                        </div>
+                    </div>
+                    <div class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Family Blessings" loading="lazy">
+                        <div class="image-overlay">
+                            <h3 class="image-title">Family Blessings</h3>
+                            <p class="image-description">Receiving love and guidance from elders</p>
+                        </div>
+                    </div>
+                    <div class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pre-Wedding Celebrations" loading="lazy">
+                        <div class="image-overlay">
+                            <h3 class="image-title">Pre-Wedding Celebrations</h3>
+                            <p class="image-description">Joy and preparations before the big day</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="gallery-controls">
-                    <button class="gallery-btn prev" id="prevBtn" aria-label="Previous image">
+                    <button class="gallery-btn prev-btn" id="prevBtn" aria-label="Previous image">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                            <path d="M15.41,7.41L14,6L8,12L14,18L15.41,16.59L10.83,12L15.41,7.41Z"/>
                         </svg>
                     </button>
-                    <div class="gallery-dots">
-                        <button class="gallery-dot active" aria-label="Go to image 1"></button>
-                        <button class="gallery-dot" aria-label="Go to image 2"></button>
-                        <button class="gallery-dot" aria-label="Go to image 3"></button>
-                        <button class="gallery-dot" aria-label="Go to image 4"></button>
-                    </div>
-                    <button class="gallery-btn next" id="nextBtn" aria-label="Next image">
+                    <button class="gallery-btn next-btn" id="nextBtn" aria-label="Next image">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            <path d="M10,6L8.59,7.41L13.17,12L8.59,16.59L10,18L16,12L10,6Z"/>
                         </svg>
                     </button>
+                </div>
+                <div class="gallery-dots">
+                    <button class="gallery-dot active" data-image="0" aria-label="View image 1"></button>
+                    <button class="gallery-dot" data-image="1" aria-label="View image 2"></button>
+                    <button class="gallery-dot" data-image="2" aria-label="View image 3"></button>
+                    <button class="gallery-dot" data-image="3" aria-label="View image 4"></button>
+                    <button class="gallery-dot" data-image="4" aria-label="View image 5"></button>
                 </div>
             </div>
         </section>
 
-        <!-- Section 6: Venue -->
-        <section id="venue" class="section animate-on-scroll">
-            <h2 class="section-title">Wedding Venue</h2>
-            <div class="venue-container">
-                <div class="venue-card fade-in-up">
-                    <div class="venue-icon">
+        <!-- Venue Section -->
+        <section class="section venue-section" id="section-5">
+            <div class="section-header">
+                <h2 class="section-title">Wedding Venue</h2>
+                <p class="section-subtitle">A beautiful venue chosen by our families for this auspicious celebration</p>
+            </div>
+            <div class="venue-content">
+                <div class="venue-info">
+                    <div class="venue-card">
+                        <div class="venue-icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12,2C8.13,2 5,5.13 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9C19,5.13 15.87,2 12,2M12,4A5,5 0 0,1 17,9C17,10 17,12 12,18.71C7,12 7,10 7,9A5,5 0 0,1 12,4M12,6.5A2.5,2.5 0 0,0 9.5,9A2.5,2.5 0 0,0 12,11.5A2.5,2.5 0 0,0 14.5,9A2.5,2.5 0 0,0 12,6.5Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="venue-location">Davanagere, Karnataka</h3>
+                        <p class="venue-description">Join us at this beautiful location where our families will come together to celebrate this joyous occasion with traditional ceremonies and blessings.</p>
+                        <div class="venue-address">
+                            <p><strong>Location:</strong> Davanagere, Karnataka, India</p>
+                            <p><strong>Coordinates:</strong> 14.4426°N, 75.9175°E</p>
+                        </div>
+                        <div class="venue-map">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31084.726445259756!2d75.8945!3d14.4426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbb77fd24f4dac9%3A0x4c7f7b8e6b3b7c88!2sDavanagere%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1635000000000!5m2!1sen!2sin"
+                                width="100%" 
+                                height="200" 
+                                style="border:0; border-radius: 10px; margin-top: 1rem;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Davanagere Wedding Venue Location">
+                            </iframe>
+                        </div>
+                        <div class="venue-contact">
+                            <p>Please contact the families for more details and venue directions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="venue-decoration">
+                    <div class="floating-elements">
+                        <div class="element element-1"></div>
+                        <div class="element element-2"></div>
+                        <div class="element element-3"></div>
+                        <div class="element element-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Thank You Section -->
+        <section class="section thankyou-section" id="section-6">
+            <div class="section-header">
+                <h2 class="section-title">Thank You</h2>
+                <p class="section-subtitle">With hearts full of gratitude, we thank our families and all who bless this union</p>
+            </div>
+            <div class="thankyou-content">
+                <div class="gratitude-card">
+                    <div class="gratitude-icon">
                         <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+                            <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
                         </svg>
                     </div>
-                    <h3 class="venue-title">The Grand Ballroom</h3>
-                    <p class="venue-address">
-                        123 Celebration Lane, <br>
-                        Bangalore, India
+                    <h3 class="gratitude-title">Endless Gratitude</h3>
+                    <p class="gratitude-message">
+                        As we embark on this beautiful journey together, our hearts are filled with immense gratitude for the love, blessings, and support from both our families. This union is not just ours, but a celebration of two families coming together in harmony and love.
                     </p>
-                    <a href="#" class="venue-location" id="venueLocation">View on Google Maps</a>
-                </div>
-                <div id="mapContainer" class="venue-map fade-in-up"></div>
-            </div>
-        </section>
-
-        <!-- Section 7: Blessings & Gratitude -->
-        <section id="gratitude" class="section animate-on-scroll">
-            <h2 class="section-title">Blessings & Gratitude</h2>
-            <div class="blessing-card fade-in-up">
-                <div class="gratitude-icon">
-                    <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
-                    </svg>
-                </div>
-                <h3 class="gratitude-title">Endless Gratitude</h3>
-                <p class="gratitude-message">
-                    As we embark on this beautiful journey together, our hearts are filled with immense gratitude for the love, blessings, and support from both our families. This union is not just ours, but a celebration of two families coming together in harmony and love.
-                </p>
-                <p class="gratitude-message">
-                    We are deeply thankful for the wisdom of our elders, the guidance in choosing this sacred bond, and for all the prayers and blessings that will guide us as we begin our new life as husband and wife.
-                </p>
-                <div class="signature">
-                    With love, <br>
-                    Harish & Namratha
+                    <p class="gratitude-message">
+                        We are deeply thankful for the wisdom of our elders, the guidance in choosing this sacred bond, and for all the prayers and blessings that will guide us as we begin our new life as husband and wife.
+                    </p>
+                    <div class="signature">
+                        <p class="signature-text">With love and respect,</p>
+                        <p class="signature-names">Harish & Namratha</p>
+                    </div>
                 </div>
             </div>
         </section>
-    </main>
+        
+    </div>
 
     <script src="app.js"></script>
 </body>
