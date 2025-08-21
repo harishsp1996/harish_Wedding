@@ -1005,7 +1005,7 @@ body {
 }
 
 .groom-name {
-    color: #1e3a8a;
+    color: #3b82f6;
     transform: translateX(-50px);
     opacity: 0;
     animation: slideInLeft 1.5s ease-out 0.5s forwards;
