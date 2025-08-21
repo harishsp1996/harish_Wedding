@@ -271,56 +271,23 @@ function setupEventListeners() {
 }
 
 // Section navigation functions with smooth transitions - Fixed
-function showSection(index) {
-    console.log(`Attempting to show section ${index}, current: ${currentSection}`);
-    
-    if (index < 0 || index >= sections.length || index === currentSection) {
-        console.log(`Invalid section index ${index} or already showing`);
-        return;
-    }
-    
-    // Hide all sections immediately
-    sections.forEach((section, i) => {
-        section.classList.remove('active');
-        section.style.display = 'none';
-    });
-    
-    // Show target section
-    if (sections[index]) {
-        sections[index].style.display = 'flex';
-        // Use setTimeout to ensure display change is applied before adding active class
-        setTimeout(() => {
-            sections[index].classList.add('active');
-        }, 10);
-        
-        currentSection = index;
-        console.log(`Successfully showing section ${index}`);
-        
-        // Update UI elements
-        updateNavDots();
-        updateProgressBar();
-        
-        // Add special effects for hero section
-        if (index === 0) {
-            setTimeout(() => {
-                addCascadeAnimations();
-            }, 100);
-        }
-        
-        // Pause video when leaving video section
-        if (weddingVideo && currentSection !== 3) {
-            weddingVideo.pause();
-        }
-        
-        // Trigger section-specific animations
-        triggerSectionAnimations(index);
-    }
-}
+// ✅ Smooth scroll version (no hide/show, just scrollIntoView)
 
 function goToSection(index) {
     console.log(`goToSection called with index: ${index}`);
     if (index >= 0 && index < sections.length) {
-        showSection(index);
+        sections[index].scrollIntoView({ behavior: "smooth" });
+        currentSection = index;
+        updateNavDots();
+        updateProgressBar();
+
+        // Pause video if we leave video section
+        if (weddingVideo && currentSection !== 3) {
+            weddingVideo.pause();
+        }
+
+        // Trigger section-specific animations
+        triggerSectionAnimations(index);
     }
 }
 
@@ -356,7 +323,7 @@ function startAutoScroll() {
     if (autoScrollTimer) {
         clearInterval(autoScrollTimer);
     }
-    
+
     autoScrollTimer = setInterval(() => {
         if (isAutoScrolling && !document.hidden) {
             goToNextSection();
@@ -366,7 +333,7 @@ function startAutoScroll() {
 
 function pauseAutoScroll() {
     isAutoScrolling = false;
-    
+
     // Resume after 20 seconds
     setTimeout(() => {
         isAutoScrolling = true;
