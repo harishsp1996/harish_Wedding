@@ -5,6 +5,8 @@ let galleryAutoTimer;
 let currentGalleryImage = 0;
 let isAutoScrolling = true;
 let isMusicPlaying = false;
+let touchStartX = 0;
+let touchStartY = 0;
 let isScrolling = false;
 
 // DOM elements
@@ -21,48 +23,49 @@ const galleryImages = document.querySelectorAll('.gallery-image');
 const galleryDots = document.querySelectorAll('.gallery-dot');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
-const venueMap = document.getElementById('venueMap');
-const mapContainer = document.getElementById('mapContainer');
-const venueLocation = document.getElementById('venueLocation');
-const autoScrollToggle = document.getElementById('autoScrollToggle');
 
-// Define constants for auto-scroll and map
-const AUTO_SCROLL_DELAY = 12000; // 12 seconds per section for a very slow, smooth pace
-const MAP_COORDINATES = { lat: 12.9716, lng: 77.5946 }; // Example: Bangalore, India coordinates
-const MAP_ZOOM = 15; // Initial map zoom level
-let map; // Google Maps instance
-
-// Initialize the application on page load
+// Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     createParticles();
-    createFloatingDecorations(); // New function for floating decor
     setupEventListeners();
     startAutoScroll();
     startGalleryAutoPlay();
-    initMap(); // Initialize the Google Map
 });
 
-// Initialize the app functions
+// Initialize app
 function initializeApp() {
+    // Ensure we have the correct number of sections
     console.log(`Found ${sections.length} sections and ${navDots.length} navigation dots`);
+    
+    // Show first section
     showSection(0);
+    
+    // Set initial volume
     if (backgroundMusic) {
         backgroundMusic.volume = 0.5;
     }
+    
+    // Update progress bar
     updateProgressBar();
+    
+    // Add cascade animations to hero text
     addCascadeAnimations();
+    
+    // Setup intersection observer for animations
     setupIntersectionObserver();
+    
+    // Optimize performance based on device
     optimizePerformance();
 }
 
-// Create and manage a particle system for visual flair
+// Create particle system
 function createParticles() {
     const particlesContainer = document.querySelector('.particles');
     if (!particlesContainer) return;
     
-    // Use fewer particles on mobile for performance
-    const particleCount = window.innerWidth < 768 ? 20 : 50;
+    // Create fewer particles on mobile for performance
+    const particleCount = window.innerWidth < 768 ? 30 : 60;
     
     for (let i = 0; i < particleCount; i++) {
         createParticle(particlesContainer);
@@ -73,19 +76,23 @@ function createParticle(container) {
     const particle = document.createElement('div');
     particle.classList.add('particle');
     
-    // Choose a random wedding-themed icon
-    const icons = ['&#x2764;&#xfe0f;', '&#x1F48D;', '&#x1F496;', '&#x1F389;']; // Heart, Ring, Sparkling Heart, Confetti
-    particle.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-    
     // Random horizontal position
     particle.style.left = Math.random() * 100 + '%';
+    
     // Random animation duration (slower for smoother effect)
-    particle.style.animationDuration = (Math.random() * 5 + 10) + 's';
+    particle.style.animationDuration = (Math.random() * 4 + 8) + 's';
+    
     // Random delay
-    particle.style.animationDelay = Math.random() * 10 + 's';
+    particle.style.animationDelay = Math.random() * 8 + 's';
+    
     // Random size
-    const size = Math.random() * 20 + 10;
-    particle.style.fontSize = size + 'px';
+    const size = Math.random() * 3 + 2;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    // Wedding color palette
+    const colors = ['#DAA520', '#F4A460', '#B22222', '#8B0000'];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
     
     container.appendChild(particle);
     
@@ -95,47 +102,17 @@ function createParticle(container) {
             particle.parentNode.removeChild(particle);
             createParticle(container);
         }
-    }, 15000 + Math.random() * 5000);
+    }, 12000 + Math.random() * 4000);
 }
 
-// Create and manage floating decorative elements
-function createFloatingDecorations() {
-    const decorationsContainer = document.querySelector('.floating-decorations');
-    if (!decorationsContainer) return;
-    
-    const decorationCount = window.innerWidth < 768 ? 5 : 10;
-    
-    for (let i = 0; i < decorationCount; i++) {
-        createDecoration(decorationsContainer, i);
-    }
-}
-
-function createDecoration(container, index) {
-    const decoration = document.createElement('div');
-    decoration.classList.add('decoration');
-    
-    // Choose a specific decorative icon
-    const icons = ['&#x1F48D;', '&#x1F491;']; // Ring and Couple with Heart
-    const icon = icons[index % icons.length];
-    
-    decoration.innerHTML = icon;
-    
-    // Randomize initial position
-    decoration.style.left = Math.random() * 100 + '%';
-    decoration.style.top = Math.random() * 100 + '%';
-    decoration.style.animationDuration = (Math.random() * 8 + 15) + 's';
-    decoration.style.animationDelay = Math.random() * 10 + 's';
-    
-    container.appendChild(decoration);
-}
-
-// Set up all event listeners for user interaction
+// Setup event listeners
 function setupEventListeners() {
-    // Navigation dots
+    // Navigation dots - Fixed to properly handle clicks
     navDots.forEach((dot, index) => {
         dot.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log(`Navigation dot ${index} clicked`);
             goToSection(index);
             pauseAutoScroll();
         });
@@ -145,6 +122,7 @@ function setupEventListeners() {
     if (musicToggle) {
         musicToggle.addEventListener('click', toggleMusic);
     }
+    
     if (volumeSlider) {
         volumeSlider.addEventListener('input', (e) => {
             if (backgroundMusic) {
@@ -152,7 +130,7 @@ function setupEventListeners() {
             }
         });
     }
-
+    
     // Video controls
     if (playButton && videoOverlay && weddingVideo) {
         playButton.addEventListener('click', playVideo);
@@ -160,11 +138,13 @@ function setupEventListeners() {
         weddingVideo.addEventListener('ended', () => {
             videoOverlay.classList.remove('hidden');
         });
+        
+        // Pause video when leaving section
         weddingVideo.addEventListener('pause', () => {
             videoOverlay.classList.remove('hidden');
         });
     }
-
+    
     // Gallery controls
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
@@ -172,181 +152,325 @@ function setupEventListeners() {
             pauseGalleryAutoPlay();
         });
     }
+    
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
             showNextImage();
             pauseGalleryAutoPlay();
         });
     }
+    
+    // Gallery dots
     galleryDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             showGalleryImage(index);
             pauseGalleryAutoPlay();
         });
     });
-
-    // Touch and scroll event listeners for graceful auto-scroll pausing
-    window.addEventListener('wheel', pauseAutoScrollAndHandleScroll);
-    window.addEventListener('touchmove', pauseAutoScrollAndHandleScroll);
     
-    // Auto-scroll toggle button
-    if (autoScrollToggle) {
-        autoScrollToggle.addEventListener('click', toggleAutoScroll);
+    // Touch events for gallery
+    const galleryMain = document.querySelector('.gallery-main');
+    if (galleryMain) {
+        galleryMain.addEventListener('touchstart', handleTouchStart, { passive: false });
+        galleryMain.addEventListener('touchmove', handleTouchMove, { passive: false });
+        galleryMain.addEventListener('touchend', handleTouchEnd, { passive: false });
     }
-
-    // Initialize map link if it exists
-    if (venueLocation) {
-        venueLocation.addEventListener('click', (e) => {
-            e.preventDefault();
-            const url = `https://www.google.com/maps/dir/?api=1&destination=${MAP_COORDINATES.lat},${MAP_COORDINATES.lng}`;
-            window.open(url, '_blank');
+    
+    // Touch events for section navigation
+    document.addEventListener('touchstart', handleSectionTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleSectionTouchMove, { passive: false });
+    document.addEventListener('touchend', handleSectionTouchEnd, { passive: true });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        switch(e.key) {
+            case 'ArrowUp':
+            case 'ArrowLeft':
+                e.preventDefault();
+                goToPreviousSection();
+                pauseAutoScroll();
+                break;
+            case 'ArrowDown':
+            case 'ArrowRight':
+            case ' ':
+                e.preventDefault();
+                goToNextSection();
+                pauseAutoScroll();
+                break;
+            case 'Home':
+                e.preventDefault();
+                goToSection(0);
+                pauseAutoScroll();
+                break;
+            case 'End':
+                e.preventDefault();
+                goToSection(sections.length - 1);
+                pauseAutoScroll();
+                break;
+        }
+    });
+    
+    // Mouse wheel navigation with throttling
+    let wheelTimeout;
+    document.addEventListener('wheel', (e) => {
+        if (isScrolling) return;
+        
+        clearTimeout(wheelTimeout);
+        wheelTimeout = setTimeout(() => {
+            if (Math.abs(e.deltaY) > 30) {
+                e.preventDefault();
+                isScrolling = true;
+                
+                if (e.deltaY > 0) {
+                    goToNextSection();
+                } else {
+                    goToPreviousSection();
+                }
+                pauseAutoScroll();
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 800);
+            }
+        }, 50);
+    }, { passive: false });
+    
+    // Window resize
+    window.addEventListener('resize', debounce(() => {
+        updateProgressBar();
+        optimizePerformance();
+    }, 300));
+    
+    // Error handling for images
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('error', handleImageError);
+        img.addEventListener('load', () => {
+            img.style.opacity = '1';
+        });
+    });
+    
+    // Error handling for audio
+    if (backgroundMusic) {
+        backgroundMusic.addEventListener('error', handleAudioError);
+        backgroundMusic.addEventListener('canplaythrough', () => {
+            musicToggle.style.opacity = '1';
         });
     }
+    
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Handle online/offline events
+    window.addEventListener('online', () => {
+        showNotification('Connection restored', 'success');
+    });
+    
+    window.addEventListener('offline', () => {
+        showNotification('Connection lost. Some features may not work.', 'warning');
+    });
 }
 
-// Handle scroll events and pause auto-scroll
-let scrollTimeout;
-function pauseAutoScrollAndHandleScroll() {
-    pauseAutoScroll();
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        // Only restart if the user has stopped scrolling and auto-scroll is enabled
-        if (isAutoScrolling) {
-            startAutoScroll();
-        }
-    }, 5000); // Wait 5 seconds after last scroll to resume
-}
-
-// Smoothly scrolls to a specified section by index
-function goToSection(index) {
-    if (index < 0 || index >= sections.length) {
+// Section navigation functions with smooth transitions - Fixed
+function showSection(index) {
+    console.log(`Attempting to show section ${index}, current: ${currentSection}`);
+    
+    if (index < 0 || index >= sections.length || index === currentSection) {
+        console.log(`Invalid section index ${index} or already showing`);
         return;
     }
-    currentSection = index;
-    showSection(currentSection);
-    // Smooth scroll to the section
-    sections[currentSection].scrollIntoView({ behavior: 'smooth' });
-    updateProgressBar();
-    updateActiveNavDot();
-}
-
-// Shows the specified section and hides others
-function showSection(index) {
+    
+    // Hide all sections immediately
     sections.forEach((section, i) => {
-        section.classList.toggle('active', i === index);
+        section.classList.remove('active');
+        section.style.display = 'none';
     });
-    // Dispatch a custom event for section change
-    document.dispatchEvent(new CustomEvent('sectionChange', { detail: { sectionIndex: index } }));
-}
-
-// Starts the automatic page scrolling
-function startAutoScroll() {
-    if (isAutoScrolling) {
-        autoScrollTimer = setInterval(() => {
-            currentSection = (currentSection + 1) % sections.length;
-            goToSection(currentSection);
-        }, AUTO_SCROLL_DELAY);
+    
+    // Show target section
+    if (sections[index]) {
+        sections[index].style.display = 'flex';
+        // Use setTimeout to ensure display change is applied before adding active class
+        setTimeout(() => {
+            sections[index].classList.add('active');
+        }, 10);
+        
+        currentSection = index;
+        console.log(`Successfully showing section ${index}`);
+        
+        // Update UI elements
+        updateNavDots();
+        updateProgressBar();
+        
+        // Add special effects for hero section
+        if (index === 0) {
+            setTimeout(() => {
+                addCascadeAnimations();
+            }, 100);
+        }
+        
+        // Pause video when leaving video section
+        if (weddingVideo && currentSection !== 3) {
+            weddingVideo.pause();
+        }
+        
+        // Trigger section-specific animations
+        triggerSectionAnimations(index);
     }
 }
 
-// Pauses the automatic page scrolling
-function pauseAutoScroll() {
+function goToSection(index) {
+    console.log(`goToSection called with index: ${index}`);
+    if (index >= 0 && index < sections.length) {
+        showSection(index);
+    }
+}
+
+function goToNextSection() {
+    const nextIndex = (currentSection + 1) % sections.length;
+    console.log(`Going to next section: ${nextIndex}`);
+    goToSection(nextIndex);
+}
+
+function goToPreviousSection() {
+    const prevIndex = currentSection === 0 ? sections.length - 1 : currentSection - 1;
+    console.log(`Going to previous section: ${prevIndex}`);
+    goToSection(prevIndex);
+}
+
+function updateNavDots() {
+    navDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSection);
+        dot.setAttribute('aria-pressed', index === currentSection);
+    });
+    console.log(`Updated nav dots, current section: ${currentSection}`);
+}
+
+function updateProgressBar() {
+    if (progressFill) {
+        const progress = ((currentSection + 1) / sections.length) * 100;
+        progressFill.style.width = progress + '%';
+    }
+}
+
+// Auto-scroll functionality
+function startAutoScroll() {
     if (autoScrollTimer) {
         clearInterval(autoScrollTimer);
-        autoScrollTimer = null;
-        isAutoScrolling = false;
-        if (autoScrollToggle) {
-            autoScrollToggle.querySelector('.toggle-icon').textContent = '▶️';
-            showNotification('Auto-scroll paused');
-        }
     }
+    
+    autoScrollTimer = setInterval(() => {
+        if (isAutoScrolling && !document.hidden) {
+            goToNextSection();
+        }
+    }, 10000); // 10 seconds per section
 }
 
-// Toggles the auto-scroll on and off
-function toggleAutoScroll() {
-    if (isAutoScrolling) {
-        pauseAutoScroll();
-    } else {
+function pauseAutoScroll() {
+    isAutoScrolling = false;
+    
+    // Resume after 20 seconds
+    setTimeout(() => {
         isAutoScrolling = true;
-        startAutoScroll();
-        if (autoScrollToggle) {
-            autoScrollToggle.querySelector('.toggle-icon').textContent = '⏸️';
-            showNotification('Auto-scroll resumed');
-        }
-    }
+    }, 20000);
 }
 
-// Toggles background music on and off
+function toggleAutoScroll() {
+    isAutoScrolling = !isAutoScrolling;
+    showNotification(
+        isAutoScrolling ? 'Auto-scroll enabled' : 'Auto-scroll disabled',
+        'info'
+    );
+}
+
+// Music functions
 function toggleMusic() {
     if (!backgroundMusic) return;
-
+    
     if (isMusicPlaying) {
         backgroundMusic.pause();
-        musicToggle.classList.remove('playing');
-        showNotification('Music paused');
+        musicToggle.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+            </svg>
+        `;
+        musicToggle.style.animation = 'none';
     } else {
-        backgroundMusic.play().catch(error => {
-            console.error('Playback failed:', error);
-            showNotification('Music playback blocked by browser. Please interact with the page to enable.');
-        });
-        musicToggle.classList.add('playing');
-        showNotification('Music playing');
+        const playPromise = backgroundMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                musicToggle.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                `;
+                musicToggle.style.animation = 'pulse 3s infinite';
+            }).catch(error => {
+                console.log('Audio play failed:', error);
+                showNotification('Click to enable audio', 'info');
+            });
+        }
     }
+    
     isMusicPlaying = !isMusicPlaying;
 }
 
-// Updates the navigation dots to reflect the current section
-function updateActiveNavDot() {
-    navDots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSection);
-    });
-}
-
-// Updates the progress bar at the bottom of the page
-function updateProgressBar() {
-    if (progressFill) {
-        const progress = (currentSection / (sections.length - 1)) * 100;
-        progressFill.style.width = `${progress}%`;
-    }
-}
-
-// Plays the wedding video
+// Video functions
 function playVideo() {
-    if (weddingVideo) {
+    if (weddingVideo && videoOverlay) {
         videoOverlay.classList.add('hidden');
-        weddingVideo.play();
-        pauseAutoScroll();
+        const playPromise = weddingVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('Video play failed:', error);
+                videoOverlay.classList.remove('hidden');
+                showNotification('Unable to play video', 'error');
+            });
+        }
     }
 }
 
-// Gallery functions
+// Gallery functions with smooth transitions
 function showGalleryImage(index) {
-    if (index < 0 || index >= galleryImages.length) {
-        return;
-    }
-    currentGalleryImage = index;
+    if (index < 0 || index >= galleryImages.length) return;
+    
+    // Hide all images
     galleryImages.forEach((img, i) => {
-        img.classList.toggle('active', i === currentGalleryImage);
+        img.classList.remove('active');
     });
-    galleryDots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentGalleryImage);
-    });
+    
+    // Show target image
+    setTimeout(() => {
+        galleryImages[index].classList.add('active');
+        currentGalleryImage = index;
+        updateGalleryDots();
+    }, 50);
 }
 
 function showNextImage() {
-    currentGalleryImage = (currentGalleryImage + 1) % galleryImages.length;
-    showGalleryImage(currentGalleryImage);
+    const nextIndex = (currentGalleryImage + 1) % galleryImages.length;
+    showGalleryImage(nextIndex);
 }
 
 function showPreviousImage() {
-    currentGalleryImage = (currentGalleryImage - 1 + galleryImages.length) % galleryImages.length;
-    showGalleryImage(currentGalleryImage);
+    const prevIndex = currentGalleryImage === 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
+    showGalleryImage(prevIndex);
 }
 
-// Gallery autoplay
+function updateGalleryDots() {
+    galleryDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentGalleryImage);
+        dot.setAttribute('aria-pressed', index === currentGalleryImage);
+    });
+}
+
 function startGalleryAutoPlay() {
+    if (galleryAutoTimer) {
+        clearInterval(galleryAutoTimer);
+    }
+    
     galleryAutoTimer = setInterval(() => {
-        showNextImage();
+        if (!document.hidden) {
+            showNextImage();
+        }
     }, 5000);
 }
 
@@ -354,107 +478,321 @@ function pauseGalleryAutoPlay() {
     if (galleryAutoTimer) {
         clearInterval(galleryAutoTimer);
     }
+    
+    // Resume after 15 seconds
+    setTimeout(() => {
+        startGalleryAutoPlay();
+    }, 15000);
 }
 
-// Intersection Observer for on-scroll animations
-function setupIntersectionObserver() {
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-visible');
-            } else {
-                entry.target.classList.remove('animate-visible');
-            }
-        });
-    }, { threshold: 0.1 });
+// Touch handling for section navigation
+let sectionTouchStartX = 0;
+let sectionTouchStartY = 0;
+
+function handleSectionTouchStart(e) {
+    const firstTouch = e.touches[0];
+    sectionTouchStartX = firstTouch.clientX;
+    sectionTouchStartY = firstTouch.clientY;
+}
+
+function handleSectionTouchMove(e) {
+    // Prevent default only for vertical swipes to avoid interfering with horizontal swipes in gallery
+    const touch = e.touches[0];
+    const diffX = Math.abs(sectionTouchStartX - touch.clientX);
+    const diffY = Math.abs(sectionTouchStartY - touch.clientY);
     
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-        observer.observe(el);
+    if (diffY > diffX && diffY > 30) {
+        e.preventDefault();
+    }
+}
+
+function handleSectionTouchEnd(e) {
+    if (!sectionTouchStartX || !sectionTouchStartY) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = sectionTouchStartX - touchEndX;
+    const diffY = sectionTouchStartY - touchEndY;
+    
+    // Detect vertical swipe
+    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
+        if (diffY > 0) {
+            // Swiped up - next section
+            goToNextSection();
+        } else {
+            // Swiped down - previous section
+            goToPreviousSection();
+        }
+        pauseAutoScroll();
+    }
+    
+    // Reset values
+    sectionTouchStartX = 0;
+    sectionTouchStartY = 0;
+}
+
+// Touch handling for gallery
+function handleTouchStart(e) {
+    const firstTouch = e.touches[0];
+    touchStartX = firstTouch.clientX;
+    touchStartY = firstTouch.clientY;
+}
+
+function handleTouchMove(e) {
+    // Prevent default for horizontal swipes in gallery
+    const touch = e.touches[0];
+    const diffX = Math.abs(touchStartX - touch.clientX);
+    const diffY = Math.abs(touchStartY - touch.clientY);
+    
+    if (diffX > diffY) {
+        e.preventDefault();
+    }
+}
+
+function handleTouchEnd(e) {
+    if (!touchStartX || !touchStartY) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+    
+    // Detect horizontal swipe
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+            // Swiped left - next image
+            showNextImage();
+        } else {
+            // Swiped right - previous image
+            showPreviousImage();
+        }
+        pauseGalleryAutoPlay();
+    }
+    
+    // Reset values
+    touchStartX = 0;
+    touchStartY = 0;
+}
+
+// Animation functions
+function addCascadeAnimations() {
+    const cascadeElements = document.querySelectorAll('[class*="cascade-"]');
+    cascadeElements.forEach((element, index) => {
+        element.style.animationDelay = (index * 0.4 + 0.5) + 's';
     });
 }
 
-// Cascade animations for hero text
-function addCascadeAnimations() {
-    const heroContent = document.querySelector('.hero-content');
-    if (!heroContent) return;
-
-    const welcomeHeading = heroContent.querySelector('.welcome-heading');
-    const groomName = heroContent.querySelector('.groom-name');
-    const heartDivider = heroContent.querySelector('.heart-divider');
-    const brideName = heroContent.querySelector('.bride-name');
-    const dateText = heroContent.querySelector('.date-text');
-
-    setTimeout(() => {
-        if (welcomeHeading) welcomeHeading.classList.add('animate-in');
-    }, 500);
-    setTimeout(() => {
-        if (groomName) groomName.classList.add('animate-in');
-    }, 800);
-    setTimeout(() => {
-        if (heartDivider) heartDivider.classList.add('animate-in');
-    }, 1100);
-    setTimeout(() => {
-        if (brideName) brideName.classList.add('animate-in');
-    }, 1400);
-    setTimeout(() => {
-        if (dateText) dateText.classList.add('animate-in');
-    }, 1700);
+function triggerSectionAnimations(sectionIndex) {
+    const section = sections[sectionIndex];
+    const animatedElements = section.querySelectorAll('.blessing-card, .timeline-item, .venue-card, .gratitude-card');
+    
+    animatedElements.forEach((element, index) => {
+        element.style.animationDelay = (index * 0.2) + 's';
+        element.classList.add('animate-in');
+    });
 }
 
-// Function to show temporary notifications
-function showNotification(message) {
+// Intersection Observer for section animations
+function setupIntersectionObserver() {
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                entry.target.style.animation = 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all cards and timeline items
+    document.querySelectorAll('.blessing-card, .timeline-item, .venue-card, .gratitude-card').forEach(element => {
+        observer.observe(element);
+    });
+}
+
+// Performance optimization
+function optimizePerformance() {
+    // Reduce particle count on mobile and low-end devices
+    if (window.innerWidth < 768 || navigator.hardwareConcurrency < 4) {
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach((particle, index) => {
+            if (index > 20) {
+                particle.remove();
+            }
+        });
+    }
+    
+    // Disable complex animations on low-end devices
+    if (navigator.hardwareConcurrency < 4) {
+        document.body.classList.add('reduce-motion');
+    }
+    
+    // Lazy load images
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.style.opacity = '0';
+                    img.addEventListener('load', () => {
+                        img.style.transition = 'opacity 0.3s ease';
+                        img.style.opacity = '1';
+                    });
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    }
+}
+
+// Handle page visibility changes
+function handleVisibilityChange() {
+    if (document.hidden) {
+        // Pause animations and music when tab is not visible
+        if (backgroundMusic && isMusicPlaying) {
+            backgroundMusic.pause();
+        }
+        isAutoScrolling = false;
+        
+        // Pause video
+        if (weddingVideo) {
+            weddingVideo.pause();
+        }
+    } else {
+        // Resume when tab becomes visible
+        if (backgroundMusic && isMusicPlaying) {
+            backgroundMusic.play().catch(console.log);
+        }
+        isAutoScrolling = true;
+    }
+}
+
+// Error handling functions
+function handleImageError(e) {
+    const img = e.target;
+    img.style.display = 'none';
+    
+    // Create elegant placeholder
+    const placeholder = document.createElement('div');
+    placeholder.style.cssText = `
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #FFF8DC, #FFFACD);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8B0000;
+        font-size: 1.2rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 2px dashed #DAA520;
+        border-radius: 10px;
+    `;
+    placeholder.innerHTML = `
+        <div style="text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📸</div>
+            <div>Image Loading...</div>
+        </div>
+    `;
+    
+    img.parentNode.style.position = 'relative';
+    img.parentNode.appendChild(placeholder);
+}
+
+function handleAudioError(e) {
+    console.log('Audio loading failed:', e);
+    if (musicToggle) {
+        musicToggle.style.opacity = '0.5';
+        musicToggle.style.cursor = 'not-allowed';
+        musicToggle.title = 'Audio not available';
+    }
+}
+
+// Utility functions
+function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
-    notification.classList.add('notification');
+    const colors = {
+        info: { bg: '#8B0000', border: '#B22222' },
+        success: { bg: '#2E7D32', border: '#4CAF50' },
+        warning: { bg: '#F57C00', border: '#FF9800' },
+        error: { bg: '#D32F2F', border: '#F44336' }
+    };
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: ${colors[type].bg};
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        border: 2px solid ${colors[type].border};
+        z-index: 1000;
+        font-size: 1rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 0.3s ease;
+    `;
     notification.textContent = message;
     document.body.appendChild(notification);
     
     setTimeout(() => {
-        notification.classList.add('fade-out');
-        notification.addEventListener('animationend', () => {
-            notification.remove();
-        });
-    }, 2000);
+        notification.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
-// Google Maps initialization
-async function initMap() {
-    // Check if map container exists
-    if (!mapContainer) return;
-
-    // Load the Google Maps API script
-    const googleMapsScript = document.createElement('script');
-    // Using a placeholder API key. In a real application, you would use a real key.
-    googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMapCallback`;
-    googleMapsScript.async = true;
-    document.head.appendChild(googleMapsScript);
-}
-
-// Callback function to be called by the Google Maps API script
-window.initMapCallback = function() {
-    const mapOptions = {
-        center: MAP_COORDINATES,
-        zoom: MAP_ZOOM,
-        disableDefaultUI: true, // Hides all default UI controls
-        mapId: "VENUE_MAP_STYLE" // Optional: custom map style ID
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
     };
+}
 
-    map = new google.maps.Map(mapContainer, mapOptions);
-
-    // Add a custom marker
-    new google.maps.Marker({
-        position: MAP_COORDINATES,
-        map: map,
-        title: "Wedding Venue",
-    });
+// Initialize when page loads
+window.addEventListener('load', () => {
+    setupIntersectionObserver();
+    optimizePerformance();
     
-    console.log('Google Map initialized successfully.');
-};
-
-// Optimizations for different devices
-function optimizePerformance() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.body.classList.add('reduce-motion');
+    // Preload critical resources
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+            preloadResources();
+        });
+    } else {
+        setTimeout(preloadResources, 1000);
     }
+});
+
+function preloadResources() {
+    // Preload next section images
+    const nextSectionImages = sections[1]?.querySelectorAll('img');
+    nextSectionImages?.forEach(img => {
+        if (img.dataset.src) {
+            const preloadImg = new Image();
+            preloadImg.src = img.dataset.src;
+        }
+    });
 }
 
 // Cleanup function
@@ -493,6 +831,7 @@ style.textContent = `
     .reduce-motion * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 `;
 document.head.appendChild(style);
